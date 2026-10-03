@@ -8,3 +8,4 @@ shap
 streamlit
 imbalanced-learn
 xgboost
+streamlit
