@@ -22,7 +22,7 @@ CAUTION_THRESHOLD = 0.45
 
 # TỪ ĐIỂN VIỆT HÓA ĐẶC TRƯNG & YẾU TỐ KÍCH HOẠT
 FEATURE_MAP = {
-    '1st_sem_enrolled': 'Số tín chỉ/môn đăng ký',
+    '1st_sem_enrolled': 'Số môn đăng ký',
     '1st_sem_evaluations': 'Số môn có đánh giá',
     '1st_sem_without_evaluations': 'Số môn bỏ thi',
     '1st_sem_approved': 'Số môn đạt (Qua môn)',
@@ -159,9 +159,8 @@ if menu == "Báo cáo Tổng quan":
         with c2:
             st.subheader("Danh sách Sinh viên cần chú ý")
             df_risk = df_scored[df_scored['Dự đoán DSS'].isin(['Caution', 'Dropout'])].copy()
-            df_risk.insert(0, 'Mã SV (Index)', df_risk.index)
             df_risk_display = df_risk[
-                ['Mã SV (Index)', 'Dự đoán DSS', '1st_sem_enrolled', '1st_sem_approved', '1st_sem_failed',
+                ['Dự đoán DSS', '1st_sem_enrolled', '1st_sem_approved', '1st_sem_failed',
                  '1st_sem_grade']].rename(columns=FEATURE_MAP)
             # Format float về 2 chữ số thập phân trên dataframe
             st.dataframe(df_risk_display.style.format(precision=2), height=300)
