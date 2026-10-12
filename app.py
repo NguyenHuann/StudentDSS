@@ -160,7 +160,7 @@ if menu == "Báo cáo Tổng quan":
             st.subheader("Danh sách Sinh viên cần chú ý")
             df_risk = df_scored[df_scored['Dự đoán DSS'].isin(['Caution', 'Dropout'])].copy()
             df_risk_display = df_risk[
-                ['Dự đoán DSS', '1st_sem_enrolled', '1st_sem_approved', '1st_sem_failed',
+                ['Dự đoán DSS', '1st_sem_enrolled', '1st_sem_evaluations', '1st_sem_approved', '1st_sem_failed',
                  '1st_sem_grade']].rename(columns=FEATURE_MAP)
             # Format float về 2 chữ số thập phân trên dataframe
             st.dataframe(df_risk_display.style.format(precision=2), height=300)
