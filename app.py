@@ -23,10 +23,10 @@ CAUTION_THRESHOLD = 0.45
 # TỪ ĐIỂN VIỆT HÓA ĐẶC TRƯNG & YẾU TỐ KÍCH HOẠT
 FEATURE_MAP = {
     '1st_sem_enrolled': 'Số môn đăng ký',
-    '1st_sem_evaluations': 'Số môn có đánh giá',
-    '1st_sem_without_evaluations': 'Số môn bỏ thi',
+    '1st_sem_evaluations': 'Số lần thi',
+    '1st_sem_without_evaluations': 'Số lần bỏ thi',
     '1st_sem_approved': 'Số môn đạt (Qua môn)',
-    '1st_sem_failed': 'Số môn rớt',
+    '1st_sem_failed': 'Số lần rớt',
     '1st_sem_grade': 'Điểm trung bình kỳ 1',
     '1st_sem_pass_rate': 'Tỷ lệ qua môn',
     'failed_burden': 'Gánh nặng rớt môn',
