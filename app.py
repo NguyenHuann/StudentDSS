@@ -144,7 +144,7 @@ if menu == "Báo cáo Tổng quan":
         col1.metric("Tổng số Sinh viên", total)
         col2.metric("🟢 An toàn (Safe)", safe_cnt, f"{(safe_cnt / total) * 100:.1f}%")
         col3.metric("🟡 Cảnh báo (Caution)", caut_cnt, f"{(caut_cnt / total) * 100:.1f}%", delta_color="off")
-        col4.metric("🔴 Bỏ học (Dropout)", drop_cnt, f"{(drop_cnt / total) * 100:.1f}%", delta_color="inverse")
+        col4.metric("🔴 Nguy cơ Bỏ học (Dropout)", drop_cnt, f"{(drop_cnt / total) * 100:.1f}%", delta_color="inverse")
 
         st.markdown("---")
         c1, c2 = st.columns([1, 2])
@@ -152,8 +152,16 @@ if menu == "Báo cáo Tổng quan":
             st.subheader("Tỷ lệ Phân bổ Rủi ro")
             fig, ax = plt.subplots(figsize=(5, 5))
             colors = {'Safe': '#2ecc71', 'Caution': '#f1c40f', 'Dropout': '#e74c3c'}
+            label_map = {
+                'Safe': 'An toàn',
+                'Caution': 'Cảnh báo',
+                'Dropout': 'Nguy cơ bỏ học'
+            }
+
             counts = df_scored['Dự đoán DSS'].value_counts()
-            ax.pie(counts, labels=counts.index, autopct='%1.1f%%', colors=[colors.get(x, '#333') for x in counts.index])
+            vi_labels = [label_map.get(x, x) for x in counts.index]
+
+            ax.pie(counts, labels=vi_labels, autopct='%1.1f%%', colors=[colors.get(x, '#333') for x in counts.index])
             st.pyplot(fig)
 
         with c2:
@@ -228,9 +236,9 @@ elif menu == "Phân tích Cá nhân":
                     st.warning("CẦN THEO DÕI (CAUTION)")
                 else:
                     st.error("RỦI RO CAO (DROPOUT)")
-                st.write(f"- Tỷ lệ Safe: **{prob_safe * 100:.1f}%**")
-                st.write(f"- Tỷ lệ Caution: **{prob_caut * 100:.1f}%**")
-                st.write(f"- Tỷ lệ Dropout: **{prob_drop * 100:.1f}%**")
+                st.write(f"- Tỷ lệ An toàn: **{prob_safe * 100:.1f}%**")
+                st.write(f"- Tỷ lệ Cảnh báo: **{prob_caut * 100:.1f}%**")
+                st.write(f"- Tỷ lệ Nguy cơ bỏ học: **{prob_drop * 100:.1f}%**")
 
             with c2:
                 st.subheader("Nguyên nhân cốt lõi (SHAP Analysis)")
@@ -242,9 +250,10 @@ elif menu == "Phân tích Cá nhân":
 
                 fig, ax = plt.subplots(figsize=(7, 3))
                 shap.summary_plot(shap_values, X_ml_display, plot_type="bar", show=False, max_display=5)
+                plt.xlabel("Trung bình giá trị tuyệt đối SHAP (Mức độ tác động trung bình lên kết quả dự đoán của mô hình)")
                 st.pyplot(fig)
 
-            st.subheader("Đề xuất Kế hoạch Hỗ trợ (CBF Engine)")
+            st.subheader("Đề xuất Kế hoạch Hỗ trợ")
             recs_df, profile = recommend_one(student_row, top_n=3)
 
             if recs_df.iloc[0]['low_confidence']:
